@@ -24,4 +24,5 @@ in
   # ++
   # (with versionFile440.auto; [nixGLNvidia nixGLDefault nixVulkanNvidia])
   # ++
-  (with versionFile510.auto; [nixGLNvidia nixGLDefault nixVulkanNvidia])
+  # (with versionFile510.auto; [nixGLNvidia nixGLDefault nixVulkanNvidia])
+  (with versionFile510.auto; [nixGLDefault])

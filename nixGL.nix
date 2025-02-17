@@ -13,7 +13,7 @@ nvidiaVersionFile ? null,
 # This is one by default, you can switch it to off if you want to reduce a
 # bit the size of nixGL closure.
 enable32bits ? stdenv.hostPlatform.isx86
-, stdenv, writeTextFile, shellcheck, pcre, runCommand, linuxPackages
+, stdenv, writeTextFile, shellcheck, pcre, runCommand, runCommandLocal, linuxPackages
 , fetchurl, lib, runtimeShell, bumblebee, libglvnd, vulkan-validation-layers
 , mesa, libvdpau-va-gl, intel-media-driver, pkgsi686Linux, driversi686Linux
 , zlib, libdrm, xorg, wayland, gcc, zstd }:
@@ -217,12 +217,10 @@ let
       #
       # builtins.readFile is not able to read /proc files. See
       # https://github.com/NixOS/nix/issues/3539.
-        runCommand "impure-nvidia-version-file" {
+        runCommandLocal "impure-nvidia-version-file" {
           # To avoid sharing the build result over time or between machine,
           # Add an impure parameter to force the rebuild on each access.
           time = builtins.currentTime;
-          preferLocalBuild = true;
-          allowSubstitutes = false;
         } "cp /proc/driver/nvidia/version $out 2> /dev/null || touch $out";
 
       # The nvidia version. Either fixed by the `nvidiaVersion` argument, or
